@@ -30,10 +30,14 @@ class webserverHandler(BaseHTTPRequestHandler):
 
                 output = ""
                 output += "<html><body>"
-                restaurants = session.query(Restaurant.name)
+                restaurants = session.query(Restaurant).all()
                 print restaurants
                 for restaurant in restaurants:
-                    output += "<h2>%s</h2>" % restaurant
+                    output += restaurant.name
+                    output += "<br><a href = '#'>Edit</a>"
+                    output += "<br><a href = '#'>Delete</a>"
+                    output += "<br>"
+                    output += "<br>"
 #                output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name='message' type='text' ><input type='submit' value='Submit'></form>"
                 output += "</body></html>"
                 self.wfile.write(output)
