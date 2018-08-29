@@ -58,17 +58,17 @@ class webserverHandler(BaseHTTPRequestHandler):
 #                print output
                 return
 
-            if self.path.endswith("/edit"):
+            if self.path.endswith("/delete"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
 
-                restaurantID = re.search('/restaurants/(.*)/edit', str(self.path)).group(1)
+                restaurantID = re.search('/restaurants/(.*)/delete', str(self.path)).group(1)
 #                restaurantID = self.path.split("/")[2]
                 restaurant = session.query(Restaurant).filter(Restaurant.id == restaurantID).one()
                 output = ""
                 output += "<html><body>"
-                output += "<form method='POST' enctype='multipart/form-data' action='/restaurants/%s/edit'><h2>%s</h2><input name='new_name' type='text' placeholder = '%s'><input type='submit' value='Rename'></form>" % (restaurantID, restaurant.name, restaurant.name)
+                output += "<form method='POST' enctype='multipart/form-data' action='/restaurants/%s/delete'><h2>Are you sure you want to delete %s?</h2><input type='submit' value='Delete'></form>" % (restaurantID, restaurant.name)
                 output += "</body></html>"
                 self.wfile.write(output)
                 print output
@@ -116,20 +116,22 @@ class webserverHandler(BaseHTTPRequestHandler):
 
                 return
 
-#            if self.path.endswith("/restaurants/new"):
+            if self.path.endswith("/delete"):
 #                ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
 #                if ctype == 'multipart/form-data':
 #                    fields = cgi.parse_multipart(self.rfile, pdict)
-#                    newinput = fields.get('new_restaurant')
-#                    print newinput
-#                    restaurant_new = Restaurant(name = newinput[0])
-#                    session.add(restaurant_new)
-#                    session.commit()
-#
-#                self.send_response(301)
-#                self.send_header('Content-type', 'text/html')
-#                self.send_header('Location', '/restaurants')
-#                self.end_headers()
+                restaurantID = re.search('/restaurants/(.*)/delete', str(self.path)).group(1)
+                print restaurantID
+                restaurant = session.query(Restaurant).filter(Restaurant.id == restaurantID).one()
+                session.delete(restaurant)
+                session.commit()
+
+                self.send_response(301)
+                self.send_header('Content-type', 'text/html')
+                self.send_header('Location', '/restaurants')
+                self.end_headers()
+
+                return
 
         except:
             pass
