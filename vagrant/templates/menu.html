@@ -1,9 +1,7 @@
 <html>
-
 <body>
 
 <h1>{{restaurant.name}}</h1>
-
 
 {% for i in items %}
 
@@ -17,8 +15,9 @@
 
 </div>
 
-
 {% endfor %}
-</body>
 
+<a href = '{{url_for('newMenuItem', restaurant_id = restaurant.id) }}'>Create New Item</a>
+
+</body>
 </html>
