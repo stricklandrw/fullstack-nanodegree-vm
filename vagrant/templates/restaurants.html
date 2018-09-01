@@ -26,7 +26,7 @@
   {% for restaurant in restaurants %}
     <div class='itempane'>
       <div class='name'>
-        <h1>{{restaurant.name}}</h1>
+        <a href="{{ url_for('showMenu', restaurant_id=restaurant.id) }}">{{restaurant.name}}</a>
       </div>
       <div class='editdeletepane'>
         <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.id) }}">Edit</a>
