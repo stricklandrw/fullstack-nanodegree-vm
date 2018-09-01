@@ -14,6 +14,15 @@ class Restaurant(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
 
+# We added this serialize function to be able to send JSON objects in a
+# serializable format
+    @property
+    def serialize(self):
+        #Returns object data in easily serializable format
+        return {
+            'name' : self.name,
+            'id' : self.id,
+        }
 
 class MenuItem(Base):
     __tablename__ = 'menu_item'
