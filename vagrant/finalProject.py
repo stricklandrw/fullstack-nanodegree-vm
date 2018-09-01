@@ -14,36 +14,38 @@ item =  {'name':'Cheese Pizza','description':'made with fresh cheese','price':'$
 @app.route('/')
 @app.route('/restaurants/')
 def showRestaurants():
-    return "This page will show all my restaurants"
+    return render_template('restaurants.html', restaurants = restaurants)
 
 @app.route('/restaurant/new/')
 def newRestaurant():
-    return "This page will be for making a new restaurant"
+    return render_template('newRestaurant.html')
 
 @app.route('/restaurant/<int:restaurant_id>/edit/')
 def editRestaurant(restaurant_id):
-    return "This page will be for editing restaurant %s" % restaurant_id
+    return render_template('editRestaurant.html', restaurant_id = restaurant_id, restaurant = restaurant)
 
 @app.route('/restaurant/<int:restaurant_id>/delete/')
 def deleteRestaurant(restaurant_id):
-    return "This page will be for deleting restaurant %s" % restaurant_id
+    return render_template('deleteRestaurant.html', restaurant_id = restaurant_id, restaurant = restaurant)
 
 @app.route('/restaurant/<int:restaurant_id>/')
 @app.route('/restaurant/<int:restaurant_id>/menu/')
 def showMenu(restaurant_id):
-    return "This page is the menu for restaurant %s" % restaurant_id
+    return render_template('menu.html', restaurant = restaurant, items = items)
 
 @app.route('/restaurant/<int:restaurant_id>/menu/new/')
 def newMenuItem(restaurant_id):
-    return "This page is for making a new menu item for restaurant %s" % restaurant_id
+    return render_template('newmenuitem.html', restaurant_id = restaurant_id)
 
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/edit/')
 def editMenuItem(restaurant_id, menu_id):
-    return "This page is for editing menu item %s" % menu_id
+    editedItem = items[menu_id - 1]
+    return render_template('editmenuitem.html', restaurant_id = restaurant_id, menu_id = menu_id, i = editedItem)
 
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/delete/')
 def deleteMenuItem(restaurant_id, menu_id):
-    return "This page is for deleting menu item %s" % menu_id
+    editedItem = items[menu_id - 1]
+    return render_template('deletemenuitem.html', restaurant_id = restaurant_id, menu_id = menu_id, i = editedItem)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
