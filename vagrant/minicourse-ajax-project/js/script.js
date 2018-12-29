@@ -14,6 +14,9 @@ function loadData() {
     // load streetview
 
     // YOUR CODE GOES HERE!
+    var street = $( "#street" ).val();
+    var city = $( "#city" ).val();
+    $body.append('<img class="bgimg" src="http://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + street + ', ' + city + '&key=AIzaSyAy2WAiXdVqvtfo13WvzsWadWXlAmSE0Iw">');
 
     return false;
 };
